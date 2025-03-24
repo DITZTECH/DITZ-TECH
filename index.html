@@ -1,28 +1,131 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DITZ TECH</title>
-    <link rel="stylesheet" href="style.css">
+    <title>DADU KB BY KOH ICELAND</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            background: url('https://i.imgur.com/YOUR_IMAGE.jpg') no-repeat center center/cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            color: rgba(6, 71, 250, 0.897);
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .dice-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            position: relative;
+        }
+        .dice {
+            font-size: 100px;
+            transition: transform 0.5s ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 120px;
+            height: 120px;
+            background: white;
+            color: black;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 1;
+            user-select: none;
+        }
+        .cup {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: brown;
+            border-radius: 50% 50% 0 0;
+            bottom: 0;
+            transition: transform 0.7s ease-in-out;
+            z-index: 2;
+            transform: translateY(-170px);
+        }
+        .roll-btn {
+            font-size: 20px;
+            padding: 12px 25px;
+            border: none;
+            background-color: #ff477e;
+            color: rgb(220, 220, 231);
+            cursor: pointer;
+            border-radius: 8px;
+            margin-top: 15px;
+            transition: 0.3s;
+        }
+        .roll-btn:hover {
+            background-color: #ff1e64;
+            transform: scale(1.05);
+        }
+        #result {
+            font-size: 22px;
+            margin-top: 10px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+    </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Login</h2>
-        <form id="loginForm">
-            <div class="input-group">
-                <label for="username">Username:</label>
-                <input type="text" id="username" required>
-            </div>
-            <div class="input-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" required>
-            </div>
-            <button type="submit">Login</button>
-        </form>
-        <div id="message" class="message"></div>
+    <div class="container">
+        <h1>DADU KB BY KOH ICELAND 🎲</h1>
+        <div class="dice-container">
+            <div class="cup" id="cup" ondblclick="setDice()"></div>
+            <div class="dice" id="dice">⚀</div>
+        </div>
+        <button class="roll-btn" onclick="rollDice()">Lempar Dadu</button>
+        <p id="result"></p>
     </div>
+    
+    <script>
+        const diceFaces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+        let presetValue = null;
 
-    <script src="script.js"></script>
+        function rollDice() {
+            document.getElementById("cup").style.transform = "translateY(0)";
+            document.getElementById("result").style.opacity = "0";
+            setTimeout(() => {
+                let roll = presetValue !== null ? presetValue - 1 : Math.floor(Math.random() * 6);
+                document.getElementById("dice").innerHTML = diceFaces[roll];
+                presetValue = null; // Reset setting setelah satu kali lempar
+                setTimeout(() => {
+                    document.getElementById("cup").style.transform = "translateY(-170px)";
+                    setTimeout(() => {
+                        document.getElementById("result").innerHTML = `🎉 Selamat! Anda mendapatkan angka ${roll + 1} 🎉`;
+                        document.getElementById("result").style.opacity = "1";
+                    }, 500);
+                }, 1000);
+            }, 500);
+        }
+
+        function setDice() {
+            let selectedValue = prompt("Masukkan angka dadu yang ingin keluar (1-6):");
+            if (selectedValue >= 1 && selectedValue <= 6) {
+                presetValue = parseInt(selectedValue);
+                alert("Angka dadu telah diatur.");
+            } else {
+                alert("Input tidak valid! Masukkan angka antara 1 hingga 6.");
+            }
+        }
+    </script>
 </body>
 </html>
